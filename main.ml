@@ -1,10 +1,10 @@
 open! Core_kernel
-open! Incr_dom
-open! Js_of_ocaml
+open! Async_kernel
+open! Import
 
 let () =
   Start_app.start
-    (module App)
+    (module Entries)
     ~bind_to_element_with_id:"app"
-    ~initial_model:App.initial_model
+    ~initial_model:(Entries.example ~entries:1000)
 ;;

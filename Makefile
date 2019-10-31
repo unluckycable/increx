@@ -1,9 +1,11 @@
-.PHONY: all clean
+.PHONY: all clean firefox
 
 
 all:
 	dune build main.bc.js
 
+firefox:
+	firefox ./index.html
 
 clean:
 	rm -fv *.install

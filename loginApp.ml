@@ -49,7 +49,6 @@ let on_startup ~schedule_action:_ _ =
 let view (m : Model.t Incr.t) ~inject =
   let open Incr.Let_syntax in
   let open Vdom in
-
   let%map input_username =
     let%map input_text = m >>| Model.username in
     Node.input
@@ -58,7 +57,6 @@ let view (m : Model.t Incr.t) ~inject =
       ; Attr.on_input (fun _ev text -> inject (Action.Update_input_username text))
       ]
       []
-
   and input_password =
     let%map input_text = m >>| Model.password in
     Node.input
@@ -68,15 +66,12 @@ let view (m : Model.t Incr.t) ~inject =
       ]
       []
   in
-
   let button label action =
     Node.button [ Attr.on_click (fun _ev -> inject action) ] [ Node.text label ]
   in
-
   let submit_button =
     button "Submit" Action.Submit_input
   in
-
   let li1 = Node.li [] [ ( Node.text "user: " ) ; input_username ] in
   let li2 = Node.li [] [ ( Node.text "pass: " ) ; input_password ] in
   let li3 = Node.li [] [ submit_button ] in

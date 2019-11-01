@@ -49,12 +49,16 @@ let on_startup ~schedule_action:_ _ =
 let view (m : Model.t Incr.t) ~inject =
   let open Incr.Let_syntax in
   let open Vdom in
+  let b = `RGBA (Css_gen.Color.RGBA.create ~r:127 ~g:127 ~b:127 ()) in
+  let f = `RGBA (Css_gen.Color.RGBA.create ~r:255 ~g:255 ~b:255 ()) in
+  let in_style = Css_gen.((background_color b) @> (color f) @> (border ~width:(`Px 0) ~color:b ~style:`None ()) ) in
   let%map input_username =
     let%map input_text = m >>| Model.username in
     Node.input
       [ Attr.type_ "text"
       ; Attr.string_property "value" input_text
       ; Attr.on_input (fun _ev text -> inject (Action.Update_input_username text))
+      ; Attr.style in_style
       ]
       []
   and input_password =
@@ -63,15 +67,19 @@ let view (m : Model.t Incr.t) ~inject =
       [ Attr.type_ "password"
       ; Attr.string_property "value" input_text
       ; Attr.on_input (fun _ev text -> inject (Action.Update_input_password text))
+      ; Attr.style in_style
       ]
       []
   in
   let button label action =
-    Node.button [ Attr.on_click (fun _ev -> inject action) ] [ Node.text label ]
+    Node.button [
+      Attr.on_click (fun _ev -> inject action)
+    ; Attr.style in_style ] [ Node.text label ]
   in
   let submit_button =
     button "Submit" Action.Submit_input
   in
+
   let li1 = Node.li [] [ ( Node.text "user: " ) ; input_username ] in
   let li2 = Node.li [] [ ( Node.text "pass: " ) ; input_password ] in
   let li3 = Node.li [] [ submit_button ] in

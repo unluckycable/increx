@@ -75,12 +75,11 @@ let view (m : Model.t Incr.t) ~inject =
   let submit_button =
     button "Submit" Action.Submit_input
   in
-
-  Node.body [] [
-    input_username
-  ; input_password
-  ; submit_button
-  ]
+  let li1 = Node.li [] [ ( Node.text "user: " ) ; input_username ] in
+  let li2 = Node.li [] [ ( Node.text "pass: " ) ; input_password ] in
+  let li3 = Node.li [] [ submit_button ] in
+  let ul = Node.ul []  [ li1 ; li2 ; li3 ] in
+  Node.body [] [ ul ]
 
 let create model ~old_model:_ ~inject =
   let open Incr.Let_syntax in

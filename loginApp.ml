@@ -36,10 +36,12 @@ end
 
 let apply_action model action _ ~schedule_action:_ =
   match (action : Action.t) with
-  | Update_input_username text
-    -> Model.update_input_username model text
-  | Update_input_password text -> Model.update_input_password model text
-  | Submit_input               -> Model.submit_input model
+  | Update_input_username text ->
+    Model.update_input_username model text
+  | Update_input_password text ->
+    Model.update_input_password model text
+  | Submit_input ->
+    Model.submit_input model
 
 let on_startup ~schedule_action:_ _ =
   Async_kernel.return ()
@@ -60,11 +62,10 @@ let view (m : Model.t Incr.t) ~inject =
   and input_password =
     let%map input_text = m >>| Model.password in
     Node.input
-      [ Attr.type_ "text"
+      [ Attr.type_ "password"
       ; Attr.string_property "value" input_text
       ; Attr.on_input (fun _ev text -> inject (Action.Update_input_password text))
       ]
-
       []
   in
 
@@ -75,6 +76,7 @@ let view (m : Model.t Incr.t) ~inject =
   let submit_button =
     button "Submit" Action.Submit_input
   in
+
   let li1 = Node.li [] [ ( Node.text "user: " ) ; input_username ] in
   let li2 = Node.li [] [ ( Node.text "pass: " ) ; input_password ] in
   let li3 = Node.li [] [ submit_button ] in

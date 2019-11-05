@@ -85,7 +85,7 @@ let view (m : Model.t Incr.t) ~inject =
   let li1 = Node.li [ ] [ ( label "user: " ) ; input_username ] in
   let li2 = Node.li [ ] [ ( label "pass: " ) ; input_password ] in
   let li3 = Node.li [ ] [ submit_button ] in
-  let ul = Node.ul  [ ] [ li1 ; li2 ; li3 ] in
+  let ul  = Node.ul [ ] [ li1 ; li2 ; li3 ] in
   Node.body [ Attr.style ( Css_gen.margin_left ( `Em 1 ) ) ] [ ul ]
 
 let create model ~old_model:_ ~inject =
